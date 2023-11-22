@@ -8,7 +8,15 @@
 class Branch {
     private:
         std::vector<Leaf> leaves;
+        int branch_creation_cost;
+        int branch_upkeep_cost;
+        int branch_leaf_capacity;
 
+    public:
+        Branch();
+
+        void addLeaf();
+        void addLeaves();
 };
 
 #endif
