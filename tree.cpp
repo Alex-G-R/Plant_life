@@ -19,19 +19,13 @@ double Tree::getTreeSunEnergyConsumption(){ return tree_sun_energy_consumption; 
 
 bool Tree::isTreeDead(){ return dead; }
 
+int Tree::getNumberOfBranches(){ return number_of_branches; }
 
-int Tree::getNumberOfBranches(){
-    return number_of_branches;
-}
-int Tree::getMaxNumberOfLeaves(){
-    return max_number_of_leaves;
-}
-int Tree::getNumberOfLeaves(){
-    return number_of_leaves;
-}
-int Tree::getNumberOfRoots(){
-    return number_of_roots;
-}
+int Tree::getMaxNumberOfLeaves(){ return max_number_of_leaves; }
+
+int Tree::getNumberOfLeaves(){ return number_of_leaves; }
+
+int Tree::getNumberOfRoots(){ return number_of_roots; }
 
 
 void Tree::addRoot(){
@@ -80,6 +74,7 @@ void Tree::updateTree(){
     number_of_roots = roots.size();
 
     tree_sun_energy = ((tree_sun_energy + tree_sun_energy_prod) - tree_sun_energy_consumption);
+    tree_soil_minerals = tree_soil_minerals + tree_soil_minerals_prod;
 
     // check if tree died by accident xD
     if(tree_sun_energy < 0){
@@ -91,8 +86,25 @@ void Tree::updateTree(){
     }
 }
 
+void Tree::showTreeInfo(){
+    std::cout << "|------------- Tree stats ---------- \n";
+    std::cout << "|--- Tree age: " << getTreeAge() << "\n";
+    std::cout << "|--- Tree sun energy production: " << getTreeSunEnergyProduction() << "\n";
+    std::cout << "|--- Tree soil minerals(sm) production: " << getTreeSoildMineralsProduction() << "\n";
+    std::cout << "|--- Tree sun energy consumption: " << getTreeSunEnergyConsumption() << "\n";
+    std::cout << "|--- Number of branches: " << getNumberOfBranches() << "\n";
+    std::cout << "|--- Max number of leaves: " << getMaxNumberOfLeaves() << "\n";
+    std::cout << "|--- Number of leaves: " << getNumberOfLeaves() << "\n";
+    std::cout << "|--- Number of roots: " << getNumberOfRoots() << "\n";
+    std::cout << "|--- Current sun energy(se): " << getNumberOfRoots() << "\n";
+    std::cout << "|--- Current soil minerals(sm): " << getNumberOfRoots() << "\n";
+    std::cout << "|--- Is tree dead: " << isTreeDead() << "\n";
+    std::cout << "|----------------------- \n";
+}
+
 /*
 void Tree::treeInterface()
-void Tree::showTreeInfo()
 */
+
+
 
