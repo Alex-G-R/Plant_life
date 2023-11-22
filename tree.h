@@ -5,12 +5,14 @@
 #include <iostream>
 #include "branch.h"
 #include "root.h"
+#include "leaf.h"
 
 class Tree {
     private:
 
         std::vector<Root> roots;
         std::vector<Branch> branches;
+        std::vector<Leaf> leaves;
 
         // Tree variables
         int tree_age;
@@ -32,13 +34,13 @@ class Tree {
         int number_of_roots;
 
     public:
-        Tree();
+        Tree(double startring_sun_energy, double starting_soil_minerals);
 
         int getTreeAge();
         double getTreeSunEnergyProduction();
         double getTreeSoildMineralsProduction();
         double getTreeSunEnergy();
-        double getTreeSoildMinerals();
+        double getTreeSoilMinerals();
         double getTreeSunEnergyConsumption();
         bool isTreeDead();
 
@@ -56,12 +58,14 @@ class Tree {
         void addBranch();
 
         void addLeaf();
-        void addLeaves();
+        void addLeaves(int n);
 
         void updateTree();
 
         void treeInterface();
         void showTreeInfo();
+        int treeMenu();
+        void dummyInfo();
 };
 
 #endif
