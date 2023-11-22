@@ -64,6 +64,8 @@ class Tree {
 
         void treeInterface();
         void showTreeInfo();
+        int treeMenu();
+        void dummyInfo();
 };
 
 #endif

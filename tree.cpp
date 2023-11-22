@@ -34,6 +34,7 @@ void Tree::addRoot(){
     } else {
         tree_soil_minerals = tree_soil_minerals - Root::getRootCost();
         roots.emplace_back();
+        std::cout << "Success, you grew a root, your SM balance is now equal to: " << getTreeSoilMinerals() << "sm \n";
     }
 }
 void Tree::addBranch(){
@@ -42,6 +43,7 @@ void Tree::addBranch(){
     } else {
         tree_soil_minerals = tree_soil_minerals - Branch::getBranchCost();
         branches.emplace_back();
+        std::cout << "Success, you grew a branch, your SM balance is now equal to: " << getTreeSoilMinerals() << "sm \n";
     }
 }
 void Tree::addLeaf(){
@@ -50,6 +52,7 @@ void Tree::addLeaf(){
     } else {
         tree_soil_minerals = tree_soil_minerals - Leaf::getLeafCost();
         leaves.emplace_back();
+        std::cout << "Success, you grew a leaf, your SM balance is now equal to: " << getTreeSoilMinerals() << "sm \n";
     }
 }
 void Tree::addLeaves(int n){
@@ -59,6 +62,8 @@ void Tree::addLeaves(int n){
         for(int i = 0; i < n; i++){
             leaves.emplace_back();
         }
+        tree_soil_minerals = tree_soil_minerals - n * Leaf::getLeafCost();
+        std::cout << "Success, you grew "<< n <<" leaves, your SM balance is now equal to: " << getTreeSoilMinerals() << "sm \n";
     }
 }
 
@@ -87,7 +92,7 @@ void Tree::updateTree(){
 }
 
 void Tree::showTreeInfo(){
-    std::cout << "|------------- Tree stats ---------- \n";
+    std::cout << "|------------- Tree stats -------------------------- \n";
     std::cout << "|--- Tree age: " << getTreeAge() << "\n";
     std::cout << "|--- Tree sun energy production: " << getTreeSunEnergyProduction() << "\n";
     std::cout << "|--- Tree soil minerals(sm) production: " << getTreeSoildMineralsProduction() << "\n";
@@ -99,12 +104,80 @@ void Tree::showTreeInfo(){
     std::cout << "|--- Current sun energy(se): " << getNumberOfRoots() << "\n";
     std::cout << "|--- Current soil minerals(sm): " << getNumberOfRoots() << "\n";
     std::cout << "|--- Is tree dead: " << isTreeDead() << "\n";
-    std::cout << "|----------------------- \n";
+    std::cout << "|---------------------------------------------------- \n";
 }
 
-/*
-void Tree::treeInterface()
-*/
+int Tree::treeMenu(){
+    std::cout << "|------------- Tree action menu ---------------------\n";
+    std::cout << "|-1- Next turn.\n";
+    std::cout << "|-2- Grow a branch (cost: "<< Branch::getBranchCost() <<"sm).\n";
+    std::cout << "|-3- Grow a root (cost: "<< Root::getRootCost() <<"sm).\n";
+    std::cout << "|-4- Grow a leaf (cost: "<< Leaf::getLeafCost() <<"sm).\n";
+    std::cout << "|-5- Grow multiple leaves (cost: "<< Leaf::getLeafCost() <<"sm p/leaf).\n";
+    std::cout << "|-6- Informations for dummies.\n";
+    std::cout << "|----------------------------------------------------\n";
+    std::cout << "Choose one option: ";
+    int option;
+    std::cin >> option;
+    return option;
+}
+
+void Tree::dummyInfo(){
+    std::cout << "|------------- Plant_life for dummies -------------------------- \n";
+    std::cout << "|-I- You simulate a growing tree, try to not make it die. \n";
+    std::cout << "|-I- If you SM (soil minerals) or SM (sun energy) go below 0, you die. \n";
+    std::cout << "|-I- In the simulation you have 3 elements, branch, leaf, root \n";
+    std::cout << "|-I- To grow parts you spend SM, to keep them alive you spend SE as an unkeep per turn \n";
+    std::cout << "|-R- Roots produce SM(soil minerals) at a rate of: "<< Root::getRootMineralsProd() << "sm per turn \n";
+    std::cout << "|-R- Roots also cost you SE(sun energy) as unkeep, to be exact " << Root::getRootSunConsumption()<<"se per turn \n";
+    std::cout << "|-R- To create a root you need to spend "<< Root::getRootCost()<< "sm \n";
+    std::cout << "|-B- Branches have a unkeep of: "<< Branch::getBranchSunConsumption()<<"se per turn \n";
+    std::cout << "|-B- Branches let you have more leaves, to be exact "<< Branch::getBranchLeafCapacity() << " leaves per branch \n";
+    std::cout << "|-B- Branch costs you exacly "<< Branch::getBranchCost()<<"sm to grow \n";
+    std::cout << "|-L- Leaves produce SE (sun energy) and they don't have an unkeep \n";
+    std::cout << "|-L- Each leaf costs you "<< Leaf::getLeafCost<<"sm to grow, and will produce "<< Leaf::getLeafEnergyProd()<<"se per turn\n";
+    std::cout << "|---------------------------------------------------- \n";
+}
+
+
+void Tree::treeInterface(){
+    updateTree();
+    showTreeInfo();
+    std::cout << "\n\n";
+    int option = treeMenu();
+
+    switch (option)
+    {
+    case 1:
+        treeInterface();
+        break;
+    case 2:
+        addBranch();
+        break;
+    case 3:
+        addRoot();
+        break;
+    case 4:
+        addLeaf();
+        break;
+    case 5:
+        int n;
+        std::cout << "How many leaves do you want to grow: ";
+        std::cin >> n;
+        addLeaves(n);
+        break;
+    case 6:
+        dummyInfo();
+        break;
+    default:
+        std::cout << "Error, try again \n";
+        treeMenu();
+        break;
+    }
+}
+
+
+
 
 
 
