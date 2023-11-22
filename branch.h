@@ -15,6 +15,7 @@ class Branch {
         
         static int getBranchLeafCapacity();
         static int getBranchSunConsumption();
+        static int getBranchCost();
 };
 
 #endif

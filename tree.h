@@ -58,7 +58,7 @@ class Tree {
         void addBranch();
 
         void addLeaf();
-        void addLeaves(int number_of_leaves);
+        void addLeaves(int n);
 
         void updateTree();
 

@@ -35,17 +35,36 @@ int Tree::getNumberOfRoots(){
 
 
 void Tree::addRoot(){
-    roots.emplace_back();
+    if(tree_soil_minerals < Root::getRootCost()){
+        std::cout << "You don't have enough soil minerals (root cost = " << Root::getRootCost() << "sm) \n";
+    } else {
+        tree_soil_minerals = tree_soil_minerals - Root::getRootCost();
+        roots.emplace_back();
+    }
 }
 void Tree::addBranch(){
-    branches.emplace_back();
+    if(tree_soil_minerals < Branch::getBranchCost()){
+        std::cout << "You don't have enough soil minerals (branch cost = " << Branch::getBranchCost() << "sm) \n";
+    } else {
+        tree_soil_minerals = tree_soil_minerals - Branch::getBranchCost();
+        branches.emplace_back();
+    }
 }
 void Tree::addLeaf(){
-    leaves.emplace_back();
-}
-void Tree::addLeaves(int number_of_leaves){
-    for(int i = 0; i < number_of_leaves; i++){
+    if(tree_soil_minerals < Leaf::getLeafCost()){
+        std::cout << "You don't have enough soil minerals (leaf cost = " << Leaf::getLeafCost() << "sm) \n";
+    } else {
+        tree_soil_minerals = tree_soil_minerals - Leaf::getLeafCost();
         leaves.emplace_back();
+    }
+}
+void Tree::addLeaves(int n){
+    if(tree_soil_minerals < Leaf::getLeafCost() * n){
+        std::cout << "You don't have enough soil minerals to grow "<< n << " leaves, this will cost: " << Leaf::getLeafCost() * n << "sm) \n";
+    } else {
+        for(int i = 0; i < n; i++){
+            leaves.emplace_back();
+        }
     }
 }
 
@@ -61,7 +80,8 @@ void Tree::updateTree(){
     number_of_roots = roots.size();
 
     tree_sun_energy = ((tree_sun_energy + tree_sun_energy_prod) - tree_sun_energy_consumption);
-    tree_soil_minerals = tree_soil_minerals;
+
+    // check if tree died by accident xD
     if(tree_sun_energy < 0){
         dead = true;
     } else if (tree_soil_minerals < 0){

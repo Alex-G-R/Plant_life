@@ -11,6 +11,7 @@ class Leaf {
     public:
         Leaf();
         static int getLeafEnergyProd();
+        static int getLeafCost();
 };
 
 #endif

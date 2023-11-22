@@ -13,6 +13,7 @@ class Root {
         Root();
         static int getRootMineralsProd();
         static int getRootSunConsumption();
+        static int getRootCost();
 };
 
 #endif
