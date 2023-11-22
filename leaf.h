@@ -10,6 +10,7 @@ class Leaf {
         int leaf_sun_energy_prod;
     public:
         Leaf();
+        static int getLeafEnergyProd();
 };
 
 #endif

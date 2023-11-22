@@ -11,6 +11,8 @@ class Root {
         int root_upkeep;
     public:
         Root();
+        static int getRootMineralsProd();
+        static int getRootSunConsumption();
 };
 
 #endif
