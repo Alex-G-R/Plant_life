@@ -3,9 +3,11 @@
 
 #include <vector>
 #include <iostream>
+#include "branch.h"
 
 class Tree {
     private:
+        std::vector<Branch> branches;
 
 };
 
