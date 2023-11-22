@@ -55,8 +55,8 @@ class Tree {
 
         void addBranch();
 
-        void addLeafToBranch();
-        void addLeavesToBranch();
+        void addLeaf();
+        void addLeaves();
 
         void updateTree();
 
