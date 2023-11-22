@@ -38,7 +38,7 @@ class Tree {
 
         int getTreeAge();
         double getTreeSunEnergyProduction();
-        double getTreeSoildMineralsProduction();
+        double getTreeSoilMineralsProduction();
         double getTreeSunEnergy();
         double getTreeSoilMinerals();
         double getTreeSunEnergyConsumption();
@@ -62,6 +62,7 @@ class Tree {
 
         void updateTree();
 
+        void nextTurn();
         void treeInterface();
         void showTreeInfo();
         int treeMenu();

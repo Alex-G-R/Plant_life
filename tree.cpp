@@ -1,6 +1,6 @@
 #include "tree.h"
 
-Tree::Tree(double startring_sun_energy, double starting_soil_minerals) : roots(), branches(), leaves(),
+Tree::Tree(double startring_sun_energy, double starting_soil_minerals) :
 tree_age(0), tree_sun_energy_prod(0), tree_soil_minerals_prod(0), tree_sun_energy(startring_sun_energy),
 tree_soil_minerals(starting_soil_minerals), tree_sun_energy_consumption(0), dead(false), number_of_branches(0),
 max_number_of_leaves(0), number_of_leaves(0), number_of_roots(0){}
@@ -9,7 +9,7 @@ int Tree::getTreeAge(){ return tree_age; }
 
 double Tree::getTreeSunEnergyProduction(){ return tree_sun_energy_prod; }
 
-double Tree::getTreeSoildMineralsProduction(){ return tree_soil_minerals_prod; }
+double Tree::getTreeSoilMineralsProduction(){ return tree_soil_minerals_prod; }
 
 double Tree::getTreeSunEnergy(){ return tree_sun_energy; }
 
@@ -31,39 +31,57 @@ int Tree::getNumberOfRoots(){ return number_of_roots; }
 void Tree::addRoot(){
     if(tree_soil_minerals < Root::getRootCost()){
         std::cout << "You don't have enough soil minerals (root cost = " << Root::getRootCost() << "sm) \n";
+        treeInterface();
     } else {
         tree_soil_minerals = tree_soil_minerals - Root::getRootCost();
         roots.emplace_back();
         std::cout << "Success, you grew a root, your SM balance is now equal to: " << getTreeSoilMinerals() << "sm \n";
+        treeInterface();
     }
 }
 void Tree::addBranch(){
     if(tree_soil_minerals < Branch::getBranchCost()){
         std::cout << "You don't have enough soil minerals (branch cost = " << Branch::getBranchCost() << "sm) \n";
+        treeInterface();
     } else {
         tree_soil_minerals = tree_soil_minerals - Branch::getBranchCost();
         branches.emplace_back();
         std::cout << "Success, you grew a branch, your SM balance is now equal to: " << getTreeSoilMinerals() << "sm \n";
+        treeInterface();
     }
 }
 void Tree::addLeaf(){
-    if(tree_soil_minerals < Leaf::getLeafCost()){
-        std::cout << "You don't have enough soil minerals (leaf cost = " << Leaf::getLeafCost() << "sm) \n";
-    } else {
+    if(tree_soil_minerals >= Leaf::getLeafCost() && branches.size() * Branch::getBranchLeafCapacity() >= leaves.size() + 1){
         tree_soil_minerals = tree_soil_minerals - Leaf::getLeafCost();
         leaves.emplace_back();
         std::cout << "Success, you grew a leaf, your SM balance is now equal to: " << getTreeSoilMinerals() << "sm \n";
+        treeInterface();
+    } else {
+        std::cout << "You don't have enough soil minerals or leaf capacity (leaf cost = " << Leaf::getLeafCost() << "sm) \n";
+        treeInterface();
     }
 }
 void Tree::addLeaves(int n){
-    if(tree_soil_minerals < Leaf::getLeafCost() * n){
-        std::cout << "You don't have enough soil minerals to grow "<< n << " leaves, this will cost: " << Leaf::getLeafCost() * n << "sm) \n";
-    } else {
-        for(int i = 0; i < n; i++){
+    if(tree_soil_minerals >= Leaf::getLeafCost() * n && branches.size() * Branch::getBranchLeafCapacity() >= leaves.size() + n){
+         for(int i = 0; i < n; i++){
             leaves.emplace_back();
         }
         tree_soil_minerals = tree_soil_minerals - n * Leaf::getLeafCost();
         std::cout << "Success, you grew "<< n <<" leaves, your SM balance is now equal to: " << getTreeSoilMinerals() << "sm \n";
+        treeInterface();
+    }
+    else if(branches.size() * Branch::getBranchLeafCapacity() < leaves.size() + n)
+    {
+        std::cout << "You don't have enough space for this amout of leaves \n";
+        treeInterface();
+    } 
+    else if(tree_soil_minerals < Leaf::getLeafCost() * n) {
+       std::cout << "You don't have enough soil minerals to grow "<< n << " leaves, this will cost: " << Leaf::getLeafCost() * n << "sm) \n";
+       treeInterface();
+    }
+    else{
+        std::cout << "Tree.cpp line 77 \n";
+        treeInterface();
     }
 }
 
@@ -95,14 +113,14 @@ void Tree::showTreeInfo(){
     std::cout << "|------------- Tree stats -------------------------- \n";
     std::cout << "|--- Tree age: " << getTreeAge() << "\n";
     std::cout << "|--- Tree sun energy production: " << getTreeSunEnergyProduction() << "\n";
-    std::cout << "|--- Tree soil minerals(sm) production: " << getTreeSoildMineralsProduction() << "\n";
+    std::cout << "|--- Tree soil minerals(sm) production: " << getTreeSoilMineralsProduction() << "\n";
     std::cout << "|--- Tree sun energy consumption: " << getTreeSunEnergyConsumption() << "\n";
     std::cout << "|--- Number of branches: " << getNumberOfBranches() << "\n";
     std::cout << "|--- Max number of leaves: " << getMaxNumberOfLeaves() << "\n";
     std::cout << "|--- Number of leaves: " << getNumberOfLeaves() << "\n";
     std::cout << "|--- Number of roots: " << getNumberOfRoots() << "\n";
-    std::cout << "|--- Current sun energy(se): " << getNumberOfRoots() << "\n";
-    std::cout << "|--- Current soil minerals(sm): " << getNumberOfRoots() << "\n";
+    std::cout << "|--- Current sun energy(se): " << getTreeSunEnergy() << "\n";
+    std::cout << "|--- Current soil minerals(sm): " << getTreeSoilMinerals() << "\n";
     std::cout << "|--- Is tree dead: " << isTreeDead() << "\n";
     std::cout << "|---------------------------------------------------- \n";
 }
@@ -139,9 +157,13 @@ void Tree::dummyInfo(){
     std::cout << "|---------------------------------------------------- \n";
 }
 
+void Tree::nextTurn(){
+    updateTree();
+    treeInterface();
+}
+
 
 void Tree::treeInterface(){
-    updateTree();
     showTreeInfo();
     std::cout << "\n\n";
     int option = treeMenu();
@@ -149,7 +171,7 @@ void Tree::treeInterface(){
     switch (option)
     {
     case 1:
-        treeInterface();
+        nextTurn();
         break;
     case 2:
         addBranch();
