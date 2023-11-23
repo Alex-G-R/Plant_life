@@ -86,6 +86,17 @@ void Tree::addLeaves(int n){
 }
 
 
+void Tree::infoCheck(){
+    tree_sun_energy_prod = leaves.size() * Leaf::getLeafEnergyProd();
+    tree_soil_minerals_prod = roots.size() * Root::getRootMineralsProd();
+    tree_sun_energy_consumption = ((roots.size() * Root::getRootSunConsumption()) + (branches.size() * Branch::getBranchSunConsumption()));
+    number_of_branches = branches.size();
+    max_number_of_leaves = branches.size() * Branch::getBranchLeafCapacity();
+    number_of_leaves = leaves.size();
+    number_of_roots = roots.size();
+}
+
+
 void Tree::updateTree(){
     tree_age++;
     tree_sun_energy_prod = leaves.size() * Leaf::getLeafEnergyProd();
@@ -132,7 +143,8 @@ int Tree::treeMenu(){
     std::cout << "|-3- Grow a root (cost: "<< Root::getRootCost() <<"sm).\n";
     std::cout << "|-4- Grow a leaf (cost: "<< Leaf::getLeafCost() <<"sm).\n";
     std::cout << "|-5- Grow multiple leaves (cost: "<< Leaf::getLeafCost() <<"sm p/leaf).\n";
-    std::cout << "|-6- Informations for dummies.\n";
+    std::cout << "|-6- Plant_life for dummies.\n";
+    std::cout << "|-100- Quit.\n";
     std::cout << "|----------------------------------------------------\n";
     std::cout << "Choose one option: ";
     int option;
@@ -155,15 +167,18 @@ void Tree::dummyInfo(){
     std::cout << "|-L- Leaves produce SE (sun energy) and they don't have an unkeep \n";
     std::cout << "|-L- Each leaf costs you "<< Leaf::getLeafCost<<"sm to grow, and will produce "<< Leaf::getLeafEnergyProd()<<"se per turn\n";
     std::cout << "|---------------------------------------------------- \n";
+    treeInterface();
 }
 
 void Tree::nextTurn(){
+    std::cout << "\n\n\n\n\n\n\n\n\n\n";
     updateTree();
     treeInterface();
 }
 
 
 void Tree::treeInterface(){
+    infoCheck();
     showTreeInfo();
     std::cout << "\n\n";
     int option = treeMenu();
@@ -190,6 +205,8 @@ void Tree::treeInterface(){
         break;
     case 6:
         dummyInfo();
+        break;
+    case 100:
         break;
     default:
         std::cout << "Error, try again \n";

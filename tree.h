@@ -62,6 +62,7 @@ class Tree {
 
         void updateTree();
 
+        void infoCheck();
         void nextTurn();
         void treeInterface();
         void showTreeInfo();
