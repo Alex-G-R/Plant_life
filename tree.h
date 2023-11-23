@@ -45,24 +45,17 @@ class Tree {
         bool isTreeDead();
 
         int getNumberOfBranches();
-
         int getMaxNumberOfLeaves();
         int getNumberOfLeaves();
-
         int getNumberOfRoots();
 
-
-
         void addRoot();
-
         void addBranch();
-
         void addLeaf();
         void addLeaves(int n);
 
         void updateTree();
-
-        void infoCheck();
+        void softUpdate();
         void nextTurn();
         void treeInterface();
         void showTreeInfo();

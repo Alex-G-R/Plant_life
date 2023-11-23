@@ -86,7 +86,9 @@ void Tree::addLeaves(int n){
 }
 
 
-void Tree::infoCheck(){
+
+
+void Tree::softUpdate() {
     tree_sun_energy_prod = leaves.size() * Leaf::getLeafEnergyProd();
     tree_soil_minerals_prod = roots.size() * Root::getRootMineralsProd();
     tree_sun_energy_consumption = ((roots.size() * Root::getRootSunConsumption()) + (branches.size() * Branch::getBranchSunConsumption()));
@@ -99,13 +101,7 @@ void Tree::infoCheck(){
 
 void Tree::updateTree(){
     tree_age++;
-    tree_sun_energy_prod = leaves.size() * Leaf::getLeafEnergyProd();
-    tree_soil_minerals_prod = roots.size() * Root::getRootMineralsProd();
-    tree_sun_energy_consumption = ((roots.size() * Root::getRootSunConsumption()) + (branches.size() * Branch::getBranchSunConsumption()));
-    number_of_branches = branches.size();
-    max_number_of_leaves = branches.size() * Branch::getBranchLeafCapacity();
-    number_of_leaves = leaves.size();
-    number_of_roots = roots.size();
+    softUpdate();
 
     tree_sun_energy = ((tree_sun_energy + tree_sun_energy_prod) - tree_sun_energy_consumption);
     tree_soil_minerals = tree_soil_minerals + tree_soil_minerals_prod;
@@ -178,7 +174,7 @@ void Tree::nextTurn(){
 
 
 void Tree::treeInterface(){
-    infoCheck();
+    softUpdate();
     showTreeInfo();
     std::cout << "\n\n";
     int option = treeMenu();
